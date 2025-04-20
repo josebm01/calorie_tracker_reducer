@@ -1,8 +1,13 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent, Dispatch } from "react";
 import { categories } from "../data/categories";
 import { Activity } from "../types";
+import { ActivityActions } from "../reducer/activity-reducer";
 
-export const Form = () => {
+type FormProps = {
+    dispatch: Dispatch<ActivityActions>
+}
+
+export const Form = ({ dispatch }: FormProps) => {
 
     const [activity, setActivity] = useState<Activity>({
         category: 1,
@@ -30,12 +35,22 @@ export const Form = () => {
     }
 
     // Función para guardar los datos
-    const handleSubmit = () => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        dispatch({
+            type: 'save-activity',
+            payload: {
+                newActivity: activity
+            }
+        })
 
     }
 
   return (
-    <form action="" className="space-y-5 bg-white shaow p-10 rounded-lg">
+    <form 
+        className="space-y-5 bg-white shaow p-10 rounded-lg"
+        onSubmit={handleSubmit}    
+    >
       <div className="grid grid-cols-1 gap-3">
         <label htmlFor="category" className="font-bold">
           Categoría:
