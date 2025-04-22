@@ -1,4 +1,6 @@
 import { useState, ChangeEvent, FormEvent, Dispatch } from "react";
+import { v4 as uuidv4} from 'uuid'
+
 import { categories } from "../data/categories";
 import { Activity } from "../types";
 import { ActivityActions } from "../reducer/activity-reducer";
@@ -7,13 +9,17 @@ type FormProps = {
     dispatch: Dispatch<ActivityActions>
 }
 
+const initialState: Activity = {
+    id: uuidv4(),
+    category: 1,
+    name: '',
+    calories: 0
+}
+
 export const Form = ({ dispatch }: FormProps) => {
 
-    const [activity, setActivity] = useState<Activity>({
-        category: 1,
-        name: '',
-        calories: 0
-    })
+
+    const [activity, setActivity] = useState<Activity>(initialState)
 
     // Función que sirve para extraer los valores de un select o inputs
     const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement> ) => {
@@ -42,6 +48,11 @@ export const Form = ({ dispatch }: FormProps) => {
             payload: {
                 newActivity: activity
             }
+        })
+
+        setActivity({
+            ...initialState,
+            id: uuidv4()
         })
 
     }
