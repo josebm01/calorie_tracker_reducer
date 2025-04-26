@@ -8,6 +8,9 @@ npm install
 Hooks utilizados:
 - useState
 - useReducer
+- uuid
+
+- localStorage
 
 Herramientas:
 - React 
