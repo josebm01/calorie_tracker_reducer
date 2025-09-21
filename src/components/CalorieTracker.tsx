@@ -1,17 +1,9 @@
-import { useMemo } from "react";
-import { Activity } from "../types";
 import { CalorieDisplay } from "./CalorieDisplay";
+import { useActivity } from "../hooks/useActivity";
 
-type CalorieTrackerProps = {
-  activities: Activity[];
-};
+export const CalorieTracker = () => {
 
-export const CalorieTracker = ({ activities }: CalorieTrackerProps) => {
-  
-    // Contadores
-    const caloriesConsumed = useMemo(() => activities.reduce( (total, activity) => activity.category === 1 ? total + activity.calories : total, 0 ), [activities] )
-    const caloriesBurned = useMemo(() => activities.reduce( (total, activity) => activity.category === 2 ? total + activity.calories : total, 0 ), [activities] )
-    const netCalories = useMemo(() => caloriesConsumed - caloriesBurned, [activities])
+    const { caloriesConsumed, caloriesBurned, netCalories } = useActivity()
 
   return (
     <>
@@ -19,20 +11,20 @@ export const CalorieTracker = ({ activities }: CalorieTrackerProps) => {
         Resumen de Calorías
       </h2>
 
-    <div className="flex flexcol items-center md:flex-row md:justify-between gap-5 mt-10">
-        <CalorieDisplay 
-            calories={caloriesConsumed}
-            text="Consumidas"
-        />
-        <CalorieDisplay 
-            calories={caloriesBurned}
-            text="quemadas"
-        />
-        <CalorieDisplay 
-            calories={netCalories}
-            text="Diferencia"
-        />
-    </div>
+      <div className="flex flexcol items-center md:flex-row md:justify-between gap-5 mt-10">
+          <CalorieDisplay 
+              calories={caloriesConsumed}
+              text="Consumidas"
+          />
+          <CalorieDisplay 
+              calories={caloriesBurned}
+              text="quemadas"
+          />
+          <CalorieDisplay 
+              calories={netCalories}
+              text="Diferencia"
+          />
+      </div>
     </>
   );
 };

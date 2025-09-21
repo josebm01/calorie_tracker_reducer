@@ -1,35 +1,21 @@
-import { Dispatch, useMemo } from "react";
-import { categories } from "../data/categories";
-import { Activity } from "../types"
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { ActivityActions } from "../reducer/activity-reducer";
+import { useActivity } from "../hooks/useActivity";
 
-type ActivityListProps = {
-    activities: Activity[],
-    dispatch: Dispatch<ActivityActions>
-}
+export const ActivityList = () => {
 
-export const ActivityList = ({ activities, dispatch }: ActivityListProps) => {
-
-    const categoryName = useMemo(() => 
-        (category: Activity['category']) =>  
-            categories.map( cat => cat.id === category ? cat.name : '')
-    , [activities]);
-
-    const isEmptyActivities = useMemo( () => activities.length === 0, [activities])
+  const { state: {activities}, dispatch, categoryName, isEmptyActivities } = useActivity()
 
   return (
     <>
         <h2 className="text-4xl font-bold text-slate-600 text-center">Comida y Actividades</h2>
 
-
-        { isEmptyActivities && (
-            <p className="text-center font-bold text-slate-700 mt-10">
-                No hay actividades registradas
-            </p>
-        )
+        { 
+            isEmptyActivities && (
+                <p className="text-center font-bold text-slate-700 mt-10">
+                    No hay actividades registradas
+                </p>
+            )
         }
-
 
         {
             activities.map( activity => (
